@@ -22,9 +22,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>ij-app</artifactId>
-			<version>${imagej.version}</version>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+			<version>${imglib2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-ij</artifactId>
+			<version>${imglib2.version}</version>
 		</dependency>
 	</dependencies>
 
