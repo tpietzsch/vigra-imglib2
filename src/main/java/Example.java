@@ -8,10 +8,10 @@
 
 import io.scif.SCIFIO;
 import io.scif.img.ImgOpener;
-import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
-import net.imglib2.img.display.imagej.ImageJFunctions;
+import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
+import net.imglib2.vigra.VigraImg2DUnsignedByte;
 import net.imglib2.vigra.VigraImgFactory2DUnsignedByte;
 
 /** Loads and displays a dataset using the ImageJ API. */
@@ -23,7 +23,8 @@ public class Example {
 		final ImgFactory<UnsignedByteType> imgFactory = new VigraImgFactory2DUnsignedByte();
 		final String source = "/tmp/img.png";
 		@SuppressWarnings("unchecked")
-		Img<UnsignedByteType> img = opener.openImg(source, imgFactory);
-		ImageJFunctions.show(img);
+		ImgPlus<UnsignedByteType> img = opener.openImg(source, imgFactory);
+		VigraImg2DUnsignedByte vigraImg = (VigraImg2DUnsignedByte)img.getImg();
+		vigraImg.exportImage("/tmp/img.tiff");
 	}
 }
