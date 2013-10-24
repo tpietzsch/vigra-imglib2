@@ -1,3 +1,4 @@
+#include <vigra/impex.hxx>
 #include <vigra/multi_array.hxx>
 
 #include "net_imglib2_vigra_VigraImg2DUnsignedByte.h"
@@ -41,4 +42,13 @@ JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraImg2DUnsignedByte_setPixel
 {
 	TYPE *array = reinterpret_cast<TYPE *>(pointer);
 	(*array)[vigra::Shape2(x, y)] = (unsigned char)value;
+}
+
+JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraImg2DUnsignedByte_exportImage
+  (JNIEnv *env, jclass clazz, jlong pointer, jstring path)
+{
+	TYPE *array = reinterpret_cast<TYPE *>(pointer);
+	const char *chars = env->GetStringUTFChars(path, NULL);
+	vigra::exportImage(*array, chars);
+	env->ReleaseStringUTFChars(path, chars);
 }

@@ -55,6 +55,13 @@
 							<type>jni</type>
 						</library>
 					</libraries>
+					<linker>
+						<sysLibs>
+							<sysLib>
+								<name>vigraimpex</name>
+							</sysLib>
+						</sysLibs>
+					</linker>
 				</configuration>
 			</plugin>
 			<plugin>

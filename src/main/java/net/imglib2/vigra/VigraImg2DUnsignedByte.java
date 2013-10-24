@@ -35,6 +35,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 	private static native long shape(long pointer, long d);
 	private static native byte getPixel(long pointer, long x, long y);
 	private static native void setPixel(long pointer, long x, long y, byte value);
+	private static native void exportImage(long pointer, String path);
 
 	@Override
 	public RandomAccess<UnsignedByteType> randomAccess() {
@@ -186,4 +187,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 		setPixel(pointer, x, y, value);
 	}
 
+	public void exportImage(String path) {
+		exportImage(pointer, path);
+	}
 }
