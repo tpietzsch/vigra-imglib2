@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vigra/multi_array.hxx>
 
 #include "net_imglib2_vigra_VigraImg2DUnsignedByte.h"
@@ -34,7 +33,6 @@ JNIEXPORT jbyte JNICALL Java_net_imglib2_vigra_VigraImg2DUnsignedByte_getPixel
   (JNIEnv *env, jclass clazz, jlong pointer, jlong x, jlong y)
 {
 	TYPE *array = reinterpret_cast<TYPE *>(pointer);
-std::cerr << "Accessed " << x << ", " << y << ": " << (int)(*array)[vigra::Shape2(x, y)] << std::endl;
 	return (*array)[vigra::Shape2(x, y)];
 }
 
