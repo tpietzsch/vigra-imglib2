@@ -50,3 +50,13 @@ command-line, you can now import the example as a Maven project via
 
 Whenever you change the native code in ```src/main/cxx/```, you will have to
 build from the command-line via ```mvn``` before you can try it in Eclipse.
+
+Running it in Avian
+-------------------
+
+First, copy all dependencies with ```mvn dependency:copy-dependencies```. Then
+call Avian VM's drop-in ```avian``` command:
+```.../avian/build/linux-x86_64/avian \
+	-Dpath.separator=: -Dfile.separator=/ -classpath \
+	$(ls target/dependency/*.jar | tr '\n' :)target/vigra-imglib2-1.0.0-SNAPSHOT.jar \
+	Example```
