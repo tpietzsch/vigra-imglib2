@@ -15,7 +15,7 @@ import net.imglib2.vigra.VigraImgFactory2DUnsignedByte;
 public class Example {
 
 	public static void main(final String... args) throws Exception {
-		Img<UnsignedByteType> img = new VigraImgFactory2DUnsignedByte().createImg(256, 256);
+		Img<UnsignedByteType> img = new VigraImgFactory2DUnsignedByte().create(new long[] { 256, 256 }, new UnsignedByteType());
 		ImageJFunctions.show(img);
 	}
 
