@@ -20,6 +20,10 @@
 	<name>A demonstration of a bridge between VIGRA and ImgLib2: Creating a VIGRA-backed Img</name>
 	<description>This example shows to integrate VIGRA and ImgLib2.</description>
 
+	<properties>
+		<scifio.version>0.7.2-SNAPSHOT</scifio.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.imglib2</groupId>
@@ -30,6 +34,11 @@
 			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2-ij</artifactId>
 			<version>${imglib2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.scif</groupId>
+			<artifactId>scifio</artifactId>
+			<version>${scifio.version}</version>
 		</dependency>
 	</dependencies>
 
