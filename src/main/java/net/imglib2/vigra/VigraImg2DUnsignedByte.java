@@ -20,8 +20,7 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
 public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	static {
-System.err.println(System.getProperty("java.library.path"));
-		NarSystem.loadLibrary();
+		NarHelper.loadLibrary(VigraImg2DUnsignedByte.class, "net.imglib2.vigra", "vigra-imglib2");
 	}
 
 	private final long pointer;

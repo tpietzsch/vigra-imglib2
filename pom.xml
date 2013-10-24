@@ -20,17 +20,6 @@
 	<name>A demonstration of a bridge between VIGRA and ImgLib2: Creating a VIGRA-backed Img</name>
 	<description>This example shows to integrate VIGRA and ImgLib2.</description>
 
-	<properties>
-		<aol>amd64-Linux-gpp</aol>
-		<artifact.location>${project.build.directory}/${artifactId}-${version}.jar</artifact.location>
-		<exec.class.path>${artifact.location}:${imglib2.location}:${imglib2-ij.location}:${imglib2-meta.location}:${imagej1.location}</exec.class.path>
-		<imagej1.location>${user.home}/.m2/repository/net/imagej/ij/${imagej1.version}/ij-${imagej1.version}.jar</imagej1.location>
-		<imglib2.location>${user.home}/.m2/repository/net/imglib2/imglib2/${imglib2.version}/imglib2-${imglib2.version}.jar</imglib2.location>
-		<imglib2-ij.location>${user.home}/.m2/repository/net/imglib2/imglib2-ij/${imglib2.version}/imglib2-ij-${imglib2.version}.jar</imglib2-ij.location>
-		<imglib2-meta.location>${user.home}/.m2/repository/net/imglib2/imglib2-meta/${imglib2.version}/imglib2-meta-${imglib2.version}.jar</imglib2-meta.location>
-		<library.path>${project.build.directory}/nar/${project.artifactId}-${project.version}-${aol}-jni/lib/${aol}/jni/</library.path>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>net.imglib2</groupId>
@@ -55,7 +44,6 @@
 					<libraries>
 						<library>
 							<type>jni</type>
-							<narSystemPackage>net.imglib2.vigra</narSystemPackage>
 						</library>
 					</libraries>
 				</configuration>
@@ -66,18 +54,12 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>exec</goal>
+							<goal>java</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<executable>java</executable>
-					<arguments>
-						<argument>-classpath</argument>
-						<argument>${exec.class.path}</argument>
-						<argument>-Djava.library.path=${library.path}</argument>
-						<argument>Example</argument>
-					</arguments>
+					<mainClass>Example</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -92,26 +74,6 @@
                                 </property>
                         </activation>
 			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-								<execution>
-										<id>add-source</id>
-										<phase>generate-sources</phase>
-										<goals>
-												<goal>add-source</goal>
-										</goals>
-										<configuration>
-												<sources>
-														<source>${project.build.directory}/nar/nar-generated/</source>
-												</sources>
-										</configuration>
-								</execution>
-						</executions>
-					</plugin>
-				</plugins>
 				<pluginManagement>
 					<plugins>
 						<!-- This plugin's configuration is used to store Eclipse m2e settings
