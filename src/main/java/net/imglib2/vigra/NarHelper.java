@@ -33,7 +33,10 @@ public class NarHelper {
 
 		final String propertiesPath = "/META-INF/nar/" + groupId + "/" + artifactId + "/nar.properties";
 		final URL url = clazz.getResource(propertiesPath);
-		if (url != null) try {
+		if (url == null) {
+			throw new UnsatisfiedLinkError("Could not find nar.properties: please rebuild with command-line Maven");
+		}
+		try {
 			final Properties props = new Properties();
 			props.load(url.openStream());
 			String output = props.getProperty("output"), aol = null, libName = null;
