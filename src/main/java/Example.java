@@ -26,5 +26,6 @@ public class Example {
 		ImgPlus<UnsignedByteType> img = opener.openImg(source, imgFactory);
 		VigraImg2DUnsignedByte vigraImg = (VigraImg2DUnsignedByte)img.getImg();
 		vigraImg.exportImage("/tmp/img.tiff");
+		scifio.getContext().dispose();
 	}
 }
