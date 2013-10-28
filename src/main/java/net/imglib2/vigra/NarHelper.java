@@ -23,7 +23,7 @@ public class NarHelper {
 		String libPrefix = "lib";
 		final String libSuffix;
 		if (osName.startsWith("mac")) {
-			libSuffix = ".dylib";
+			libSuffix = ".jnilib";
 		} else if (osName.startsWith("win")) {
 			libPrefix = "";
 			libSuffix = ".dll";
