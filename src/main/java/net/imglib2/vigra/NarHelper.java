@@ -58,6 +58,17 @@ public class NarHelper {
 				String path = urlString.substring(5, urlString.length() - propertiesPath.length());
 				if (path.endsWith("/classes")) path = path.substring(0, path.length() - 8);
 				libPath = path + "/nar/" + libName + "-" + aol + "-jni/lib/" + aol + "/jni/" + libPrefix + libName + libSuffix;
+			} else if (urlString.startsWith("jar:file:")) {
+				int bang = urlString.indexOf("!/");
+				if (bang < 0) {
+					throw new UnsatisfiedLinkError("Unexpected URL: " + urlString);
+				}
+				String path = urlString.substring(9, bang);
+				int target = path.lastIndexOf("/target/");
+				if (target < 0) {
+					throw new UnsatisfiedLinkError("Could not infer the target/ location: " + urlString);
+				}
+				libPath = path.substring(0, target + 8) + "nar/" + libName + "-" + aol + "-jni/lib/" + aol + "/jni/" + libPrefix + libName + libSuffix;
 			} else {
 				throw new UnsatisfiedLinkError("Could not load native library: URL of .jar is " + urlString);
 			}
