@@ -21,7 +21,7 @@
 	<description>This example shows to integrate VIGRA and ImgLib2.</description>
 
 	<properties>
-		<scifio.version>0.7.2-SNAPSHOT</scifio.version>
+		<scifio.version>0.7.2</scifio.version>
 	</properties>
 
 	<dependencies>
