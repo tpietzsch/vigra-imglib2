@@ -21,7 +21,7 @@ public class Example {
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener(scifio.getContext());
 		final ImgFactory<UnsignedByteType> imgFactory = new VigraImgFactory2DUnsignedByte();
-		final String source = "/tmp/img.png";
+		final String source = "/tmp/img.pgm";
 		@SuppressWarnings("unchecked")
 		ImgPlus<UnsignedByteType> img = opener.openImg(source, imgFactory);
 		VigraImg2DUnsignedByte vigraImg = (VigraImg2DUnsignedByte)img.getImg();
