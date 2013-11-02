@@ -11,12 +11,12 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
  * 
  * @author Johannes Schindelin
  */
-public class VigraImgFactory2DUnsignedByte extends ImgFactory<UnsignedByteType> {
+public class VigraImgFactory3DUnsignedByte extends ImgFactory<UnsignedByteType> {
 
 	@Override
 	public Img<UnsignedByteType> create(long[] dimensions, UnsignedByteType type) {
-		if (dimensions.length != 2) throw new UnsupportedOperationException("Not 2D: " + Arrays.toString(dimensions));
-		return new VigraImg2DUnsignedByte(dimensions[0], dimensions[1]);
+		if (dimensions.length != 3) throw new UnsupportedOperationException("Not 3D: " + Arrays.toString(dimensions));
+		return new VigraImg3DUnsignedByte(dimensions[0], dimensions[1], dimensions[2]);
 	}
 
 	@SuppressWarnings("unchecked")

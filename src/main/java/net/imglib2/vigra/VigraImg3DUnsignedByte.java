@@ -17,34 +17,34 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
  * 
  * @author Johannes Schindelin
  */
-public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
+public class VigraImg3DUnsignedByte implements Img<UnsignedByteType> {
 
 	static {
-		NarHelper.loadLibrary(VigraImg2DUnsignedByte.class, "net.imglib2.vigra", "vigra-imglib2");
+		NarHelper.loadLibrary(VigraImg3DUnsignedByte.class, "net.imglib2.vigra", "vigra-imglib2");
 	}
 
 	private final long pointer;
 
-	public VigraImg2DUnsignedByte(long width, long height) {
-		pointer = init(width, height);
+	public VigraImg3DUnsignedByte(long width, long height, long depth) {
+		pointer = init(width, height, depth);
 		gradient(pointer);
 	}
 
-	private static native long init(long width, long height);
+	private static native long init(long width, long height, long depth);
 	private static native void gradient(long pointer);
 	private static native long shape(long pointer, long d);
-	private static native byte getPixel(long pointer, long x, long y);
-	private static native void setPixel(long pointer, long x, long y, byte value);
+	private static native byte getPixel(long pointer, long x, long y, long z);
+	private static native void setPixel(long pointer, long x, long y, long z, byte value);
 	private static native void exportImage(long pointer, String path);
 
 	@Override
 	public RandomAccess<UnsignedByteType> randomAccess() {
-		return new VigraRandomAccess2DUnsignedByteType(this);
+		return new VigraRandomAccess3DUnsignedByteType(this);
 	}
 
 	@Override
 	public RandomAccess<UnsignedByteType> randomAccess(Interval interval) {
-		if (interval.min(0) == min(0) && interval.min(1) == min(1) && interval.max(0) == max(0) && interval.max(1) == max(1)) {
+		if (interval.min(0) == min(0) && interval.min(1) == min(1) && interval.min(2) == min(2) && interval.max(0) == max(0) && interval.max(1) == max(1) && interval.max(2) == max(2)) {
 			return randomAccess();
 		}
 		throw new UnsupportedOperationException();
@@ -52,7 +52,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public int numDimensions() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public void min(Positionable min) {
-		min.setPosition(new long[] { 0, 0 });
+		min.setPosition(new long[] { 0, 0, 0 });
 	}
 
 	@Override
@@ -77,14 +77,14 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public void max(long[] max) {
-		for (int i = 0; i < 2; ++i) {
+		for (int i = 0; i < 3; ++i) {
 			max[i] = max(i);
 		}
 	}
 
 	@Override
 	public void max(Positionable max) {
-		for (int i = 0; i < 2; ++i) {
+		for (int i = 0; i < 3; ++i) {
 			max.setPosition(max(i), i);
 		}
 	}
@@ -96,12 +96,12 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public void realMin(double[] min) {
-		min[0] = min[1] = 0;
+		min[0] = min[1] = min[2] = 0;
 	}
 
 	@Override
 	public void realMin(RealPositionable min) {
-		min.setPosition(new double[] { 0, 0 });
+		min.setPosition(new double[] { 0, 0, 0 });
 	}
 
 	@Override
@@ -111,14 +111,14 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public void realMax(double[] max) {
-		for (int i = 0; i < 2; ++i) {
+		for (int i = 0; i < 3; ++i) {
 			max[i] = realMax(i);
 		}
 	}
 
 	@Override
 	public void realMax(RealPositionable max) {
-		for (int i = 0; i < 2; ++i) {
+		for (int i = 0; i < i; ++i) {
 			max.setPosition(realMax(i), i);
 		}
 	}
@@ -145,7 +145,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 
 	@Override
 	public long size() {
-		return dimension(0) * dimension(1);
+		return dimension(0) * dimension(1) * dimension(2);
 	}
 
 	@Override
@@ -179,12 +179,12 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 		throw new UnsupportedOperationException();
 	}
 
-	public byte getPixel(long x, long y) {
-		return getPixel(pointer, x, y);
+	public byte getPixel(long x, long y, long z) {
+		return getPixel(pointer, x, y, z);
 	}
 
-	public void setPixel(long x, long y, byte value) {
-		setPixel(pointer, x, y, value);
+	public void setPixel(long x, long y, long z, byte value) {
+		setPixel(pointer, x, y, z, value);
 	}
 
 	public void exportImage(String path) {

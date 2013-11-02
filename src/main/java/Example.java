@@ -11,8 +11,8 @@ import io.scif.img.ImgOpener;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.meta.ImgPlus;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
-import net.imglib2.vigra.VigraImg2DUnsignedByte;
-import net.imglib2.vigra.VigraImgFactory2DUnsignedByte;
+import net.imglib2.vigra.VigraImg3DUnsignedByte;
+import net.imglib2.vigra.VigraImgFactory3DUnsignedByte;
 
 /** Loads and displays a dataset using the ImageJ API. */
 public class Example {
@@ -20,11 +20,11 @@ public class Example {
 	public static void main(final String... args) throws Exception {
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener(scifio.getContext());
-		final ImgFactory<UnsignedByteType> imgFactory = new VigraImgFactory2DUnsignedByte();
+		final ImgFactory<UnsignedByteType> imgFactory = new VigraImgFactory3DUnsignedByte();
 		final String source = "/tmp/img.pgm";
 		@SuppressWarnings("unchecked")
 		ImgPlus<UnsignedByteType> img = opener.openImg(source, imgFactory);
-		VigraImg2DUnsignedByte vigraImg = (VigraImg2DUnsignedByte)img.getImg();
+		VigraImg3DUnsignedByte vigraImg = (VigraImg3DUnsignedByte)img.getImg();
 		vigraImg.exportImage("/tmp/img.tiff");
 		scifio.getContext().dispose();
 	}

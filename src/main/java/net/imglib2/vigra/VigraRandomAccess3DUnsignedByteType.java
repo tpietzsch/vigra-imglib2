@@ -10,13 +10,13 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
  * 
  * @author Johannes Schindelin
  */
-public class VigraRandomAccess2DUnsignedByteType implements
+public class VigraRandomAccess3DUnsignedByteType implements
 		RandomAccess<UnsignedByteType> {
-	private VigraImg2DUnsignedByte img;
-	private long x, y;
+	private VigraImg3DUnsignedByte img;
+	private long x, y, z;
 
-	public VigraRandomAccess2DUnsignedByteType(
-			VigraImg2DUnsignedByte img) {
+	public VigraRandomAccess3DUnsignedByteType(
+			VigraImg3DUnsignedByte img) {
 		this.img = img;
 	}
 
@@ -24,22 +24,24 @@ public class VigraRandomAccess2DUnsignedByteType implements
 	public void localize(int[] position) {
 		position[0] = (int)x;
 		position[1] = (int)y;
+		position[2] = (int)z;
 	}
 
 	@Override
 	public void localize(long[] position) {
 		position[0] = x;
 		position[1] = y;
+		position[2] = z;
 	}
 
 	@Override
 	public int getIntPosition(int d) {
-		return d == 0 ? (int)x : (int)y;
+		return d == 0 ? (int)x : d == 1 ? (int)y : (int)z;
 	}
 
 	@Override
 	public long getLongPosition(int d) {
-		return d == 0 ? x : y;
+		return d == 0 ? x : d == 1 ? y : z;
 	}
 
 	@Override
@@ -64,14 +66,17 @@ public class VigraRandomAccess2DUnsignedByteType implements
 
 	@Override
 	public int numDimensions() {
-		return 2;
+		return 3;
 	}
 
 	@Override
 	public void fwd(int d) {
 		if (++x >= img.max(0)) {
 			x = 0;
-			++y;
+			if (++y >= img.max(1)) {
+				y = 0;
+				++z;
+			}
 		}
 	}
 
@@ -79,68 +84,81 @@ public class VigraRandomAccess2DUnsignedByteType implements
 	public void bck(int d) {
 		if (--x < 0) {
 			x = img.max(0);
-			--y;
+			if (--y < 0) {
+				y = img.max(1);
+				--z;
+			}
 		}
 	}
 
 	@Override
 	public void move(int distance, int d) {
 		if (d == 0) x += distance;
-		else y += distance;
+		else if (d == 1) y += distance;
+		else z += distance;
 	}
 
 	@Override
 	public void move(long distance, int d) {
 		if (d == 0) x += distance;
-		else y += distance;
+		else if (d == 1) y += distance;
+		else z += distance;
 	}
 
 	@Override
 	public void move(Localizable localizable) {
 		x += localizable.getLongPosition(0);
 		y += localizable.getLongPosition(1);
+		z += localizable.getLongPosition(2);
 	}
 
 	@Override
 	public void move(int[] distance) {
 		x += distance[0];
 		y += distance[1];
+		z += distance[2];
 	}
 
 	@Override
 	public void move(long[] distance) {
 		x += distance[0];
 		y += distance[1];
+		z += distance[2];
 	}
 
 	@Override
 	public void setPosition(Localizable localizable) {
 		x = localizable.getLongPosition(0);
 		y = localizable.getLongPosition(1);
+		z = localizable.getLongPosition(2);
 	}
 
 	@Override
 	public void setPosition(int[] position) {
 		x = position[0];
 		y = position[1];
+		z = position[2];
 	}
 
 	@Override
 	public void setPosition(long[] position) {
 		x = position[0];
 		y = position[1];
+		z = position[2];
 	}
 
 	@Override
 	public void setPosition(int position, int d) {
 		if (d == 0) x = position;
-		else y = position;
+		else if (d == 1) y = position;
+		else z = position;
 	}
 
 	@Override
 	public void setPosition(long position, int d) {
 		if (d == 0) x = position;
-		else y = position;
+		else if (d == 1) y = position;
+		else z = position;
 	}
 
 	@Override
@@ -149,12 +167,12 @@ public class VigraRandomAccess2DUnsignedByteType implements
 
 			@Override
 			public byte getValue(int index) {
-				return img.getPixel(x, y);
+				return img.getPixel(x, y, z);
 			}
 
 			@Override
 			public void setValue(int index, byte value) {
-				img.setPixel(x, y, value);
+				img.setPixel(x, y, z, value);
 			}
 
 		});
