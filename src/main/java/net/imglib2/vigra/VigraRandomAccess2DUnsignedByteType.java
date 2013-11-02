@@ -78,7 +78,7 @@ public class VigraRandomAccess2DUnsignedByteType implements
 	@Override
 	public void bck(int d) {
 		if (--x < 0) {
-			x = img.max(0) - 1;
+			x = img.max(0);
 			--y;
 		}
 	}

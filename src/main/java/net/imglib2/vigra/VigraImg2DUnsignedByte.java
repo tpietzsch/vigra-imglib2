@@ -78,7 +78,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 	@Override
 	public void max(long[] max) {
 		for (int i = 0; i < 2; ++i) {
-			max[0] = max(0);
+			max[i] = max(i);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class VigraImg2DUnsignedByte implements Img<UnsignedByteType> {
 	@Override
 	public void realMax(double[] max) {
 		for (int i = 0; i < 2; ++i) {
-			max[0] = realMax(0);
+			max[i] = realMax(i);
 		}
 	}
 
