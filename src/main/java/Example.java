@@ -17,7 +17,15 @@ import net.imglib2.vigra.VigraImgFactory3DUnsignedByte;
 /** Loads and displays a dataset using the ImageJ API. */
 public class Example {
 
-	public static void main(final String... args) throws Exception {
+	public static void main(final String... args) {
+		try {
+			main();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+
+	public static void main() throws Exception {
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener(scifio.getContext());
 		final ImgFactory<UnsignedByteType> imgFactory = new VigraImgFactory3DUnsignedByte();
