@@ -21,7 +21,8 @@
 	<description>This example shows to integrate VIGRA and ImgLib2.</description>
 
 	<properties>
-		<scifio.version>0.7.2</scifio.version>
+<!--  	<scifio.version>0.7.2</scifio.version> -->
+		<imglib2.version>2.0.0-SNAPSHOT</imglib2.version>
 	</properties>
 
 	<dependencies>
@@ -50,6 +51,19 @@
 				<version>3.0.0-SNAPSHOT</version>
 				<extensions>true</extensions>
 				<configuration>
+					<javah>
+						<!-- <name>../../bin/javah</name> -->
+					<classPaths>
+						<classPath>/Users/pietzsch/workspace/vigra-imglib2/target/classes</classPath>
+						<classPath>/Users/pietzsch/workspace/imglib/core/target/imglib2-2.0.0-SNAPSHOT.jar</classPath>
+					</classPaths>
+					</javah>
+					<cpp>
+						<includePaths>
+							<includePath>/Users/pietzsch/workspace/vigra/include</includePath>
+							<includePath>/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers</includePath>
+						</includePaths>
+					</cpp>
 					<libraries>
 						<library>
 							<type>jni</type>
@@ -61,6 +75,9 @@
 								<name>vigraimpex</name>
 							</sysLib>
 						</sysLibs>
+						<options>
+							<option>-L/opt/local/lib/</option>
+						</options>
 					</linker>
 				</configuration>
 			</plugin>
@@ -83,12 +100,12 @@
 
 	<profiles>
 		<profile>
-                        <id>only-eclipse</id>
-                        <activation>
-                                <property>
-                                        <name>m2e.version</name>
-                                </property>
-                        </activation>
+			<id>only-eclipse</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
 			<build>
 				<pluginManagement>
 					<plugins>
