@@ -8,8 +8,7 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>1.93</version>
-		<relativePath/>
+		<version>1.100</version>
 	</parent>
 
 	<groupId>net.imglib2.vigra</groupId>
@@ -21,7 +20,6 @@
 	<description>This example shows to integrate VIGRA and ImgLib2.</description>
 
 	<properties>
-<!--  	<scifio.version>0.7.2</scifio.version> -->
 		<imglib2.version>2.0.0-SNAPSHOT</imglib2.version>
 	</properties>
 
@@ -92,7 +90,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>Example</mainClass>
+					<mainClass>Example2</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
