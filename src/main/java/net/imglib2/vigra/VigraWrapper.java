@@ -26,7 +26,7 @@ public class VigraWrapper
 			final long[] shape = new long[ img.numDimensions() ];
 			img.dimensions( shape );
 
-			invertNDim( shape, type.getNativeTypeId().getIntegerId(), buffer );
+			invertNDim( shape, NativeTypeId.forType( type ).getIntegerId(), buffer );
 //			invertNDimObject( new VigraImgInfo( shape, type.getNativeTypeId(), buffer ) );
 		}
 		else
@@ -38,7 +38,7 @@ public class VigraWrapper
 			final ArrayImg< T, A > dest,
 			final double sigma )
 	{
-		final NativeTypeId typeId = dest.firstElement().getNativeTypeId();
+		final NativeTypeId typeId =  NativeTypeId.forType( dest.firstElement() );
 		switch( typeId )
 		{
 			case UnsignedByte:
