@@ -1,48 +1,39 @@
 import ij.ImageJ;
 import io.scif.SCIFIO;
+import io.scif.img.ImgIOException;
 import io.scif.img.ImgOpener;
-import net.imglib2.Cursor;
 import net.imglib2.img.Img;
-import net.imglib2.img.ImgFactory;
 import net.imglib2.img.array.ArrayImg;
 import net.imglib2.img.array.ArrayImgBufferFactory;
-import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.img.display.imagej.ImageJFunctions;
-import net.imglib2.meta.ImgPlus;
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.vigra.VigraWrapper;
 
 public class Example2
 {
-	public static void main( final String... args ) throws Exception
+	public static <T extends NativeType<T> & RealType< T > > void smoothWithVigra( final T type ) throws ImgIOException
 	{
-		final String fn = "/Users/pietzsch/workspace/data/DrosophilaWing.tif";
-		final int sourceNumDimensions = 2;
-
+		final String fn = "/Users/pietzsch/workspace/data/DrosophilaWing.png";
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener( scifio.getContext() );
-		final ImgFactory< FloatType > imgFactory = new ArrayImgFactory< FloatType >();
-		final ImgPlus< FloatType > scifioimg = opener.openImg( fn, imgFactory, new FloatType() );
+		final ArrayImgBufferFactory< T > imgFactory = new ArrayImgBufferFactory< T >();
+		final Img< T > source = opener.openImg( fn, imgFactory, type ).getImg();
+		final Img< T > dest = imgFactory.create( source, type );
 
-		// scifio thinks the image is 5D. Therefore: copy to a 2D ArrayImg.
-		final long[] dims = new long[ sourceNumDimensions ];
-		for ( int d = 0; d < sourceNumDimensions; ++d )
-			dims[ d ] = scifioimg.dimension( d );
-		final ArrayImgBufferFactory< FloatType > bufferImgFactory = new ArrayImgBufferFactory< FloatType >();
-		final Img< FloatType > source = bufferImgFactory.create( dims, new FloatType() );
-		final Cursor< FloatType > cin = scifioimg.cursor();
-		final Cursor< FloatType > cout = source.cursor();
-		while ( cout.hasNext() )
-			cout.next().set( cin.next() );
-
-		final Img< FloatType > dest = bufferImgFactory.create( dims, new FloatType() );
-
-//		VigraWrapper.invertImage( ( ArrayImg ) source );
 		VigraWrapper.gaussianSmoothMultiArray( ( ArrayImg ) source, ( ArrayImg ) dest, 3.0 );
-
 		new ImageJ();
 		ImageJFunctions.show( source );
 		ImageJFunctions.show( dest );
+
 		scifio.getContext().dispose();
+	}
+
+	public static void main( final String... args ) throws Exception
+	{
+//		smoothWithVigra( new UnsignedByteType() ); // doesn't work currently due to a scifio limitation
+//		smoothWithVigra( new IntType() );
+		smoothWithVigra( new FloatType() );
 	}
 }
