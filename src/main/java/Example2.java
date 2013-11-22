@@ -15,7 +15,7 @@ public class Example2
 {
 	public static <T extends NativeType<T> & RealType< T > > void smoothWithVigra( final T type ) throws ImgIOException
 	{
-		final String fn = "/Users/pietzsch/workspace/data/DrosophilaWing.png";
+		final String fn = "ghouse.png";
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener( scifio.getContext() );
 		final ArrayImgBufferFactory< T > imgFactory = new ArrayImgBufferFactory< T >();
