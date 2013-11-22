@@ -55,6 +55,9 @@ public class VigraWrapper
 		}
 	}
 
+	public static native < T extends NativeType< T >, A extends BufferDataAccess< A > > 
+    void arrayMetadata(final ArrayImg< T, A > source);
+    
 	private static native void invert( int w, int h, Buffer data );
 
 	private static native void invertNDim( long[] shape, int typeId, Buffer data );

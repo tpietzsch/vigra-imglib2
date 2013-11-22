@@ -23,8 +23,9 @@ void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobjec
 template <class T>
 void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobject sourceData, jobject destData, jdouble sigma )
 {
-	#define F(N) gaussianSmoothMultiArray<T,N>(env, shape, typeId, sourceData, destData, sigma)
-	ALLOW_DIMENSIONS(env->GetArrayLength(shape), 1, 2, 3)
+	gaussianSmoothMultiArray<T,2>(env, shape, typeId, sourceData, destData, sigma);
+	// #define F(N) gaussianSmoothMultiArray<T,N>(env, shape, typeId, sourceData, destData, sigma)
+	// ALLOW_DIMENSIONS(env->GetArrayLength(shape), 1, 2, 3)
 }
 
 /*
@@ -35,6 +36,31 @@ void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobjec
 JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiArray
   (JNIEnv *env, jclass, jlongArray shape, jint typeId, jobject sourceData, jobject destData, jdouble sigma)
 {
-	#define F(T) gaussianSmoothMultiArray<T>(env, shape, typeId, sourceData, destData, sigma)
-	ALLOW_TYPES(typeId, UInt8, Int32, float)
+	gaussianSmoothMultiArray<float>(env, shape, typeId, sourceData, destData, sigma);
+	// #define F(T) gaussianSmoothMultiArray<T>(env, shape, typeId, sourceData, destData, sigma)
+	// ALLOW_TYPES(typeId, UInt8, Int32, float)
+}
+
+JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_arrayMetadata
+  (JNIEnv *env, jclass, jobject sourceData)
+{
+    jclass clazz = env->GetObjectClass(sourceData);
+    jmethodID mid = env->GetMethodID(clazz, "getClass", "()Ljava/lang/Class;");
+    if(mid == 0)
+    {
+        std::cerr << "Method not found\n";
+        return;
+    }
+    jobject arrayClass = env->CallObjectMethod(sourceData, mid);
+    jclass clazz2 = env->GetObjectClass(arrayClass);
+    jmethodID mid2 = env->GetMethodID(clazz2, "toString", "()Ljava/lang/String;");
+    if(mid2 == 0)
+    {
+        std::cerr << "Method 2 not found\n";
+        return;
+    }
+    
+    jstring className = (jstring)env->CallObjectMethod(arrayClass, mid2);
+    jboolean isCopy = false;
+    std::cerr << env->GetStringUTFChars(className, &isCopy) << "\n#############################\n\n";
 }

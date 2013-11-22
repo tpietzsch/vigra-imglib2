@@ -22,6 +22,8 @@ public class Example2
 		final Img< T > source = opener.openImg( fn, imgFactory, type ).getImg();
 		final Img< T > dest = imgFactory.create( source, type );
 
+		VigraWrapper.arrayMetadata( ( ArrayImg ) source);
+        
 		VigraWrapper.gaussianSmoothMultiArray( ( ArrayImg ) source, ( ArrayImg ) dest, 3.0 );
 		new ImageJ();
 		ImageJFunctions.show( source );
