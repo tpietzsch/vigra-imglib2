@@ -19,10 +19,8 @@
 #define CHOICE_COUNT_ARGS_IMPL1(args)  CHOICE_COUNT_ARGS_IMPL2 args
 #define CHOICE_COUNT_ARGS(...)  CHOICE_COUNT_ARGS_IMPL1((__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
    
-#define CHOICE_HELPER_IMPL(...) CHOICE##__VA_ARGS__
-#define CHOICE_HELPER(count) CHOICE_HELPER_IMPL(count)
-
-#define CHOICE_GLUE(a, b) a b
+#define CHOICE_SELECTOR_IMPL(...) CHOICE##__VA_ARGS__
+#define CHOICE_SELECTOR(count) CHOICE_SELECTOR_IMPL(count)
 
 #define CHOICE1(F, a)    F(a)
 #define CHOICE2(F, a, b)    CHOICE1(F, a)  CHOICE1(F, b)
@@ -34,8 +32,8 @@
 #define CHOICE8(F, a, b, c, d, e, f, g, h)    CHOICE1(F, a) CHOICE7(F, b, c, d, e, f, g, h)
 #define CHOICE9(F, a, b, c, d, e, f, g, h, i)    CHOICE1(F, a) CHOICE8(F, b, c, d, e, f, g, h, i)
 #define CHOICE10(F, a, b, c, d, e, f, g, h, i, j)    CHOICE1(F, a) CHOICE9(F, b, c, d, e, f, g, h, i, j)
-#define CHOOSER(...) __VA_ARGS__
-#define CHOOSE(F, ...)  CHOOSER(CHOICE_GLUE(CHOICE_HELPER(CHOICE_COUNT_ARGS(__VA_ARGS__)), (F, __VA_ARGS__)))
+#define CHOOSE_IMPL(...) __VA_ARGS__
+#define CHOOSE(F, ...)  CHOOSE_IMPL(CHOICE_SELECTOR(CHOICE_COUNT_ARGS(__VA_ARGS__)) (F, __VA_ARGS__))
 
 /*
  * Debugging helper: STR(X) is the string to which macro X expands.
