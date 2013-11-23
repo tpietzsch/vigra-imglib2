@@ -23,9 +23,9 @@ void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobjec
 template <class T>
 void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobject sourceData, jobject destData, jdouble sigma )
 {
-	gaussianSmoothMultiArray<T,2>(env, shape, typeId, sourceData, destData, sigma);
-	// #define F(N) gaussianSmoothMultiArray<T,N>(env, shape, typeId, sourceData, destData, sigma)
-	// ALLOW_DIMENSIONS(env->GetArrayLength(shape), 1, 2, 3)
+	#define F(N) gaussianSmoothMultiArray<T,N>(env, shape, typeId, sourceData, destData, sigma)
+	ALLOW_DIMENSIONS(env->GetArrayLength(shape), 1, 2, 3)
+    #undef F
 }
 
 /*
@@ -36,9 +36,10 @@ void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobjec
 JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiArray
   (JNIEnv *env, jclass, jlongArray shape, jint typeId, jobject sourceData, jobject destData, jdouble sigma)
 {
-	gaussianSmoothMultiArray<float>(env, shape, typeId, sourceData, destData, sigma);
-	// #define F(T) gaussianSmoothMultiArray<T>(env, shape, typeId, sourceData, destData, sigma)
-	// ALLOW_TYPES(typeId, UInt8, Int32, float)
+    using namespace vigra; // to get UInt8 and Int32
+	#define F(T) gaussianSmoothMultiArray<T>(env, shape, typeId, sourceData, destData, sigma)
+	ALLOW_TYPES(typeId, UInt8, Int32, float)
+    #undef F
 }
 
 JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_arrayMetadata
