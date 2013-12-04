@@ -4,7 +4,7 @@ import io.scif.img.ImgIOException;
 import io.scif.img.ImgOpener;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImg;
-import net.imglib2.img.array.ArrayImgBufferFactory;
+import net.imglib2.img.array.ArrayImgUnsafeFactory;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
@@ -18,12 +18,12 @@ public class Example2
 		final String fn = "ghouse.png";
 		final SCIFIO scifio = new SCIFIO();
 		final ImgOpener opener = new ImgOpener( scifio.getContext() );
-		final ArrayImgBufferFactory< T > imgFactory = new ArrayImgBufferFactory< T >();
+		final ArrayImgUnsafeFactory< T > imgFactory = new ArrayImgUnsafeFactory< T >();
 		final Img< T > source = opener.openImg( fn, imgFactory, type ).getImg();
 		final Img< T > dest = imgFactory.create( source, type );
 
-		VigraWrapper.arrayMetadata( ( ArrayImg ) source);
-        
+//		VigraWrapper.arrayMetadata( ( ArrayImg ) source);
+
 		VigraWrapper.gaussianSmoothMultiArray( ( ArrayImg ) source, ( ArrayImg ) dest, 3.0 );
 		new ImageJ();
 		ImageJFunctions.show( source );
