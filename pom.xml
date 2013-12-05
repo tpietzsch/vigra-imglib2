@@ -46,7 +46,7 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<version>3.0.0-rc-3-SNAPSHOT</version>
+				<version>3.0.0-rc-2</version>
 				<extensions>true</extensions>
 				<configuration>
 					<cpp>
@@ -125,7 +125,7 @@
 											<pluginExecutionFilter>
 												<groupId>com.github.maven-nar</groupId>
 												<artifactId>nar-maven-plugin</artifactId>
-												<versionRange>3.0.0-rc-3-SNAPSHOT</versionRange>
+												<versionRange>3.0.0-rc-2</versionRange>
 												<goals>
 													<goal>nar-compile</goal>
 													<goal>nar-download</goal>
