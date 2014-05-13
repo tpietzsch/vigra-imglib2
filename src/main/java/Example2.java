@@ -23,14 +23,10 @@ public class Example2
 		final Img< T > dest = imgFactory.create( source, type );
 		scifio.getContext().dispose();
 
-//		VigraWrapper.arrayMetadata( ( ArrayImg ) source);
-
 		VigraWrapper.gaussianSmoothMultiArray( ( ArrayImg ) source, ( ArrayImg ) dest, 3.0 );
 		new ImageJ();
 		ImageJFunctions.show( source );
 		ImageJFunctions.show( dest );
-
-//		VigraWrapper.doMultiArrayInfo( ( ArrayImg ) source );
 	}
 
 	public static void main( final String... args ) throws Exception
