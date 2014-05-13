@@ -18,6 +18,18 @@ void gaussianSmoothMultiArray(JNIEnv *env, jlongArray shape, jint typeId, jobjec
 	void* destPtr = env->GetDirectBufferAddress(destData);
 	MultiArrayView<N,T> dest( v, reinterpret_cast<T*>(destPtr));
 	gaussianSmoothMultiArray(source, dest, sigma);
+
+}
+
+void Java_net_imglib2_vigra_VigraWrapper_catchVigraViolationExample( JNIEnv *env, jclass clazz )
+{
+   try
+   {
+//      throw PreconditionViolation("Let's get ready to rumble");
+      throw PostconditionViolation("My feet are so swollen right now");
+//      throw InvariantViolation("Put your back into it");
+   }
+   CATCH_CPP_EXCEPTION_THROW_JAVA_EXCEPTION
 }
 
 template <class T>

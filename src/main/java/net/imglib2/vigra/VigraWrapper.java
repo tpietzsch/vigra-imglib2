@@ -1,5 +1,6 @@
 package net.imglib2.vigra;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.Buffer;
 
 import net.imglib2.img.array.ArrayImg;
@@ -63,6 +64,8 @@ public class VigraWrapper
 	private static native void invertNDim( long[] shape, int typeId, Buffer data );
 
 	private static native void gaussianSmoothMultiArray( long[] shape, int typeId, Buffer source, Buffer dest, double sigma );
+
+	public static native void catchVigraViolationExample() throws Exception, InvocationTargetException;
 
 //	private static native void invertNDimObject( VigraImgInfo img );
 }
