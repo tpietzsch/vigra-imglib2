@@ -76,7 +76,7 @@ template< class T >
 void gaussianSmoothMultiArray( MultiArrayInfo sourceInfo, MultiArrayInfo destInfo, jdouble sigma )
 {
 #define F(N) gaussianSmoothMultiArray<T,N>(sourceInfo, destInfo, sigma)
-	ALLOW_DIMENSIONS( sourceInfo.shape.size(), 2 )
+	ALLOW_DIMENSIONS( sourceInfo.shape.size(), 1, 2, 3 )
 #undef F
 }
 
@@ -85,7 +85,7 @@ void gaussianSmoothMultiArray( MultiArrayInfo sourceInfo, MultiArrayInfo destInf
  * It uses the ALLOW_TYPES macro to dispatch to gaussianSmoothMultiArray<T>(...) instantiation for the specified types.
  * These instantiations will in turn dispatch to gaussianSmoothMultiArray<T,N>(...) instantiations for the dimensionalities specified there.
  */
-JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiArrayI
+JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiArray
   (JNIEnv *env, jclass, jobject source, jobject dest, jdouble sigma)
 {
 	MultiArrayInfo sourceInfo( env, source );
@@ -94,6 +94,6 @@ JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiAr
 	using namespace vigra;
 	// to get UInt8 and Int32
 #define F(T) gaussianSmoothMultiArray<T>(sourceInfo, destInfo, sigma)
-	ALLOW_TYPES( sourceInfo.typeId, float )
+	ALLOW_TYPES( sourceInfo.typeId, UInt8, Int32, float )
 #undef F
 }
