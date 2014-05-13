@@ -21,6 +21,7 @@ public class Example2
 		final ArrayImgUnsafeFactory< T > imgFactory = new ArrayImgUnsafeFactory< T >();
 		final Img< T > source = opener.openImg( fn, imgFactory, type ).getImg();
 		final Img< T > dest = imgFactory.create( source, type );
+		scifio.getContext().dispose();
 
 //		VigraWrapper.arrayMetadata( ( ArrayImg ) source);
 
