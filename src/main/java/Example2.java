@@ -30,7 +30,7 @@ public class Example2
 		ImageJFunctions.show( source );
 		ImageJFunctions.show( dest );
 
-		scifio.getContext().dispose();
+//		VigraWrapper.doMultiArrayInfo( ( ArrayImg ) source );
 	}
 
 	public static void main( final String... args ) throws Exception
