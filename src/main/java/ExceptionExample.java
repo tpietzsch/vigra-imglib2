@@ -1,11 +1,9 @@
 import java.lang.reflect.InvocationTargetException;
 
 import io.scif.img.ImgIOException;
-import net.imglib2.type.NativeType;
-import net.imglib2.type.numeric.RealType;
-import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.vigra.VigraWrapper;
 import net.imglib2.vigra.exception.VigraContractException;
+import net.imglib2.vigra.exception.VigraExceptionTestHelper;
 
 public class ExceptionExample
 {
@@ -14,7 +12,13 @@ public class ExceptionExample
 
 		try
 		{
-			VigraWrapper.catchVigraViolationExample();
+//			VigraWrapper.catchVigraViolationExample();
+			
+			VigraExceptionTestHelper.throwPrecondition();
+//			VigraWrapper.throwPrecondition();
+				
+//			VigraWrapper.throwPostcondition();
+//			VigraWrapper.throwInvariant();
 		}
 		catch(VigraContractException ve){
 			System.out.println(" Vigra exception ");
