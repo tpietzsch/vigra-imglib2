@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>1.100</version>
+		<version>1.162</version>
 	</parent>
 
 	<groupId>net.imglib2.vigra</groupId>
@@ -27,17 +27,14 @@
 		<dependency>
 			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2</artifactId>
-			<version>${imglib2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2-ij</artifactId>
-			<version>${imglib2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.scif</groupId>
 			<artifactId>scifio</artifactId>
-			<version>${scifio.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -46,14 +43,9 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<version>3.0.0-rc-2</version>
+				<version>3.0.0</version>
 				<extensions>true</extensions>
 				<configuration>
-					<cpp>
-						<includePaths>
-							<includePath>/Users/pietzsch/workspace/vigra/include</includePath>
-						</includePaths>
-					</cpp>
 					<libraries>
 						<library>
 							<type>jni</type>
@@ -65,9 +57,6 @@
 								<name>vigraimpex</name>
 							</sysLib>
 						</sysLibs>
-						<options>
-							<option>-L/opt/local/lib/</option>
-						</options>
 					</linker>
 				</configuration>
 			</plugin>
@@ -125,7 +114,7 @@
 											<pluginExecutionFilter>
 												<groupId>com.github.maven-nar</groupId>
 												<artifactId>nar-maven-plugin</artifactId>
-												<versionRange>3.0.0-rc-2</versionRange>
+												<versionRange>3.0.0-rc-3-SNAPSHOT</versionRange>
 												<goals>
 													<goal>nar-compile</goal>
 													<goal>nar-download</goal>
