@@ -76,6 +76,57 @@
 			std::cerr << "not implemented for " << N << " dimensions." << std::endl;\
 			break;\
 	}
+
+// found here:
+// http://stackoverflow.com/questions/2054598/how-to-catch-jni-java-exception
+#define CATCH_CPP_EXCEPTION_THROW_JAVA_EXCEPTION              		\
+  catch (const vigra::PreconditionViolation& e)                     \
+  {                                                               	\
+    jclass jc = env->FindClass("net/imglib2/vigra/exception/VigraPreconditionException"); \
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+    /* if null => NoClassDefFoundError already thrown */          	\
+  }                                                               	\
+  catch (const vigra::PostconditionViolation& e)                    \
+  {                                                               	\
+    jclass jc = env->FindClass("net/imglib2/vigra/exception/VigraPostconditionException"); \
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+    /* if null => NoClassDefFoundError already thrown */          	\
+  }																	\
+  catch (const vigra::InvariantViolation& e)                    	\
+  {                                                               	\
+    jclass jc = env->FindClass("net/imglib2/vigra/exception/VigraInvariantException"); \
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+    /* if null => NoClassDefFoundError already thrown */          	\
+  }																	\
+  catch (const vigra::ContractViolation& e)                    		\
+  {                                                               	\
+    jclass jc = env->FindClass("net/imglib2/vigra/exception/VigraContractException"); \
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+    /* if null => NoClassDefFoundError already thrown */          	\
+  }																	\
+  catch (const std::bad_alloc& e)                                 	\
+  {                                                               	\
+    /* OOM exception */                                           	\
+    jclass jc = env->FindClass("java/lang/OutOfMemoryError");     	\
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+  }                                                               	\
+  catch (const std::ios_base::failure& e)                         	\
+  {                                                               	\
+    /* IO exception */                                            	\
+    jclass jc = env->FindClass("java/io/IOException");            	\
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+  }                                                               	\
+  catch (const std::exception& e)                                 	\
+  {                                                               	\
+    /* unknown exception */                                       	\
+    jclass jc = env->FindClass("java/lang/Error");                	\
+    if(jc) env->ThrowNew (jc, e.what());                          	\
+  }                                                               	\
+  catch (...)                                                     	\
+  {                                                               	\
+    jclass jc = env->FindClass("java/lang/Error");                	\
+    if(jc) env->ThrowNew (jc, "unexpected exception");            	\
+  }
     
 namespace imglib2 {
 

@@ -94,6 +94,17 @@ template< class T > RandomForest< T >& RandomForestInfo::get()
 	return *(reinterpret_cast< RandomForest< T >* >( ptr ));
 }
 
+void Java_net_imglib2_vigra_VigraWrapper_catchVigraViolationExample( JNIEnv *env, jclass clazz )
+{
+   try
+   {
+//      throw PreconditionViolation("Let's get ready to rumble");
+      throw PostconditionViolation("My feet are so swollen right now");
+//      throw InvariantViolation("Put your back into it");
+   }
+   CATCH_CPP_EXCEPTION_THROW_JAVA_EXCEPTION
+}
+
 
 
 
@@ -103,6 +114,7 @@ JNIEXPORT jlong JNICALL Java_net_imglib2_vigra_RandomForest_constructor
 {
 #define F(T) return reinterpret_cast< jlong >( new RandomForest< T >() );
 	ALLOW_TYPES( typeId, double, float )
+#undef F
 }
 
 
@@ -125,6 +137,7 @@ void gaussianSmoothMultiArray( MultiArrayInfo source, MultiArrayInfo dest, jdoub
 {
 #define F(N) gaussianSmoothMultiArray( source.getMultiArray< N, T >(), dest.getMultiArray< N, T >(), sigma )
 	ALLOW_DIMENSIONS( source.dim(), 1, 2, 3 )
+#undef F
 }
 
 /*
@@ -142,4 +155,5 @@ JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiAr
 	// to get UInt8 and Int32
 #define F(T) gaussianSmoothMultiArray<T>(sourceInfo, destInfo, sigma)
 	ALLOW_TYPES( sourceInfo.typeId, UInt8, Int32, float )
+#undef F
 }
