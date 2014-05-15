@@ -11,6 +11,8 @@ public class VigraWrapper
 		NarHelper.loadLibrary( VigraWrapper.class, "net.imglib2.vigra", "vigra-imglib2" );
 	}
 
+	public static void init() {};
+
 	public static < T extends NativeType< T >, A extends UnsafeDataAccess< A > > void gaussianSmoothMultiArray(
 			final ArrayImg< T, A > source,
 			final ArrayImg< T, A > dest,

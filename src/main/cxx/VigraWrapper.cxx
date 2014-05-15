@@ -2,9 +2,11 @@
 #include <vigra/multi_array.hxx>
 
 #include "net_imglib2_vigra_VigraWrapper.h"
+#include "net_imglib2_vigra_RandomForest.h"
 #include "VigraWrapper.hxx"
 
 #include <vigra/multi_convolution.hxx>
+#include <vigra/random_forest.hxx>
 
 using namespace vigra;
 
@@ -41,6 +43,11 @@ struct MultiArrayInfo
 	}
 
 	template< unsigned int N, class T > MultiArrayView< N, T > getMultiArray();
+
+	unsigned int dim()
+	{
+		return shape.size();
+	}
 };
 
 template< unsigned int N, class T > MultiArrayView< N, T > MultiArrayInfo::getMultiArray()
@@ -61,23 +68,63 @@ void printMultiArrayInfo( const MultiArrayInfo& info )
 	std::cout << "dataPtr = " << reinterpret_cast< long >( info.dataPtr ) << std::endl;
 }
 
-
-
-
-
-
-template< class T, unsigned int N >
-void gaussianSmoothMultiArray( MultiArrayInfo source, MultiArrayInfo dest, jdouble sigma )
+struct  RandomForestInfo
 {
-	gaussianSmoothMultiArray( source.getMultiArray< N, T >(), dest.getMultiArray< N, T >(), sigma );
+	jint typeId;
+
+	void* ptr;
+
+	RandomForestInfo( JNIEnv *env, jobject rfObj )
+	{
+		// get jfieldIDs (later this should be done only once)
+		jclass RandomForest_class = env->GetObjectClass( rfObj );
+		jfieldID typeId_field = env->GetFieldID( RandomForest_class, "typeId", "I" );
+		jfieldID ptr_field = env->GetFieldID( RandomForest_class, "ptr", "J" );
+
+		// get the fields
+		this->typeId = env->GetIntField( rfObj, typeId_field );
+		this->ptr = reinterpret_cast< void* >( env->GetLongField( rfObj, ptr_field ) );
+	}
+
+	template< class T > RandomForest< T >& get();
+};
+
+template< class T > RandomForest< T >& RandomForestInfo::get()
+{
+	return *(reinterpret_cast< RandomForest< T >* >( ptr ));
 }
 
-template< class T >
-void gaussianSmoothMultiArray( MultiArrayInfo sourceInfo, MultiArrayInfo destInfo, jdouble sigma )
+
+
+
+
+JNIEXPORT jlong JNICALL Java_net_imglib2_vigra_RandomForest_constructor
+  (JNIEnv *env, jclass, jint typeId )
 {
-#define F(N) gaussianSmoothMultiArray<T,N>(sourceInfo, destInfo, sigma)
-	ALLOW_DIMENSIONS( sourceInfo.shape.size(), 1, 2, 3 )
-#undef F
+#define F(T) return reinterpret_cast< jlong >( new RandomForest< T >() );
+	ALLOW_TYPES( typeId, double, float )
+}
+
+
+JNIEXPORT void JNICALL Java_net_imglib2_vigra_RandomForest_learn
+  (JNIEnv *env, jobject obj, jobject features, jobject responses)
+{
+	RandomForestInfo randomForestInfo( env, obj );
+	MultiArrayInfo featuresInfo( env, features );
+	MultiArrayInfo responsesInfo( env, responses );
+
+	randomForestInfo.get< float >().learn(
+			featuresInfo.getMultiArray< 2, float >(),
+			responsesInfo.getMultiArray< 2, float >() );
+}
+
+
+
+template< class T >
+void gaussianSmoothMultiArray( MultiArrayInfo source, MultiArrayInfo dest, jdouble sigma )
+{
+#define F(N) gaussianSmoothMultiArray( source.getMultiArray< N, T >(), dest.getMultiArray< N, T >(), sigma )
+	ALLOW_DIMENSIONS( source.dim(), 1, 2, 3 )
 }
 
 /*
@@ -95,5 +142,4 @@ JNIEXPORT void JNICALL Java_net_imglib2_vigra_VigraWrapper_gaussianSmoothMultiAr
 	// to get UInt8 and Int32
 #define F(T) gaussianSmoothMultiArray<T>(sourceInfo, destInfo, sigma)
 	ALLOW_TYPES( sourceInfo.typeId, UInt8, Int32, float )
-#undef F
 }
