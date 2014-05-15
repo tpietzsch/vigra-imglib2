@@ -12,7 +12,7 @@ public final class RandomForest< T extends NativeType< T > & RealType< T > >
 
 	private final int typeId;
 
-	public RandomForest( final T type )
+	public RandomForest( final T type ) throws Exception
 	{
 		typeId = NativeTypeId.forType( type ).getIntegerId();
 		ptr = constructor( typeId );
@@ -25,11 +25,20 @@ public final class RandomForest< T extends NativeType< T > & RealType< T > >
 		// TODO
 	}
 
-	public < A extends UnsafeDataAccess< A > > void learn(
-			final ArrayImg< T, A > features,
-			final ArrayImg< T, A > response )
+	public < F extends NativeType< F > & RealType< F >, FA extends UnsafeDataAccess< FA >, TA extends UnsafeDataAccess< TA > >
+	void learn(
+			final ArrayImg< F, FA > features,
+			final ArrayImg< T, TA > response ) throws Exception
 	{
 		learn( new MultiArrayInfo( features ), new MultiArrayInfo( response ) );
+	}
+
+	public < F extends NativeType< F > & RealType< F >, FA extends UnsafeDataAccess< FA >, TA extends UnsafeDataAccess< TA > >
+	void predictLabels(
+			final ArrayImg< F, FA > features,
+			final ArrayImg< T, TA > predicted ) throws Exception
+	{
+		predictLabels( new MultiArrayInfo( features ), new MultiArrayInfo( predicted ) );
 	}
 
 	@Override
@@ -39,7 +48,9 @@ public final class RandomForest< T extends NativeType< T > & RealType< T > >
 		super.finalize();
 	}
 
-	private static native long constructor( int typeId );
+	private static native long constructor( int typeId ) throws Exception;
 
-	private native void learn( MultiArrayInfo features, MultiArrayInfo response );
+	private native void learn( MultiArrayInfo features, MultiArrayInfo response ) throws Exception;
+
+	private native void predictLabels( MultiArrayInfo features, MultiArrayInfo predicted ) throws Exception;
 }

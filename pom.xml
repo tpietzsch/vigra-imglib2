@@ -51,6 +51,10 @@
 							<type>jni</type>
 						</library>
 					</libraries>
+					<cpp>
+						<!-- optimize choices: "none", "size", "minimal", "speed", "full", "aggressive", "extreme", "unsafe" -->
+						<optimize>aggressive</optimize>
+					</cpp>
 					<linker>
 						<sysLibs>
 							<sysLib>

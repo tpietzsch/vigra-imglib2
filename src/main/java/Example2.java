@@ -1,6 +1,5 @@
 import ij.ImageJ;
 import io.scif.SCIFIO;
-import io.scif.img.ImgIOException;
 import io.scif.img.ImgOpener;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImg;
@@ -13,7 +12,7 @@ import net.imglib2.vigra.VigraWrapper;
 
 public class Example2
 {
-	public static <T extends NativeType<T> & RealType< T > > void smoothWithVigra( final T type ) throws ImgIOException
+	public static <T extends NativeType<T> & RealType< T > > void smoothWithVigra( final T type ) throws Exception
 	{
 		final String fn = "ghouse.png";
 		final SCIFIO scifio = new SCIFIO();
